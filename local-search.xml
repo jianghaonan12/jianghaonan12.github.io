@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>docker安装mysql</title>
+    <link href="/2023/07/04/docker%E5%AE%89%E8%A3%85mysql/"/>
+    <url>/2023/07/04/docker%E5%AE%89%E8%A3%85mysql/</url>
+    
+    <content type="html"><![CDATA[<p><strong>1.docker拉取mysql镜像</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker pull mysql:8.0.29<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure><p>此处我以8.0.29版本为例</p><p><strong>2.查看镜像是否成功拉取到mysql</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker images<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure><p><strong>3.将mysql配置文件复制到容器外，并运行mysql</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none"># 简单运行容器，为了拷贝配置文件docker run --name mysql --hostname&#x3D;root -d mysql:8.0.29# 拷贝MySQL配置文件docker container cp mysql:&#x2F;etc&#x2F;mysql&#x2F;conf.d&#x2F; &#x2F;docker&#x2F;mysql&#x2F;conf# 删除容器docker rm -f mysql# 运行容器docker run --name mysql \--restart&#x3D;always -p 3306:3306 \-v &#x2F;docker&#x2F;mysql&#x2F;log:&#x2F;var&#x2F;log&#x2F;mysql \-v &#x2F;docker&#x2F;mysql&#x2F;data:&#x2F;var&#x2F;lib&#x2F;mysql \-v &#x2F;docker&#x2F;mysql&#x2F;conf:&#x2F;etc&#x2F;mysql&#x2F;conf.d&#x2F; \-e TZ&#x3D;&quot;Asia&#x2F;Shanghai&quot; \-e MYSQL_ROOT_PASSWORD&#x3D;root \--hostname&#x3D;root -d mysql:8.0.29<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure><p>此时mysql已经成功启动，接下来进入mysql容器登录一下mysql</p><p><strong>4.进入mysql容器</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">docker exec -it mysql &#x2F;bin&#x2F;bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure><p><strong>5.登录mysql</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mysql -u root -p<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure><p>这一行命令运行完成之后，会让你输入密码，输入你配置的密码即可登录成功</p><p><strong>6.查看所有的数据库</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">show databases;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure><p><strong>7.选择要进入的数据库</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">use test;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure><p>此处我选择的是test数据库</p><p><strong>8.创建一张表</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">CREATE TABLE employees (   -&gt;     id INT PRIMARY KEY,   -&gt;     name VARCHAR(50) NOT NULL,   -&gt;     age INT,   -&gt;     salary DECIMAL(10, 2)   -&gt; );<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure><p>创建了一张名为employees的表</p><p><strong>9.展示表结构</strong></p><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">desc employees;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>rabbitmq在idea中的实现</title>
     <link href="/2023/07/03/rabbitmq%E5%9C%A8idea%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
     <url>/2023/07/03/rabbitmq%E5%9C%A8idea%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
