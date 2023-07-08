@@ -16,15 +16,15 @@
   <meta name="author" content="Panda">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.导入maven坐标 &lt;dependency&gt;     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;spring-boot-starter-websocket&lt;&#x2F;artifactId&gt; &lt;&#x2F;dependency&gt;  2.">
+    <meta name="description" content="Spring Cache常用注解    注解 说明    @EnableCaching 开启缓存注解功能   @Cacheable 使用该注解的方法在执行前，先将方法的参数作为 key 去缓存中查找，如果缓存中存在该 key，则直接返回对应的结果；否则，执行该方法，并将结果存储到缓存中   @CachePut 使用该注解的方法总是会执行，并将其结果存储到缓存中。这个注解常用于更新缓存。   @Ca">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用websocket进行消息发送">
-<meta property="og:url" content="http://example.com/2023/07/06/%E4%BD%BF%E7%94%A8websocket%E8%BF%9B%E8%A1%8C%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81/index.html">
+<meta property="og:title" content="使用redis作为springcache缓存">
+<meta property="og:url" content="http://example.com/2023/07/08/%E4%BD%BF%E7%94%A8redis%E4%BD%9C%E4%B8%BAspringcache%E7%BC%93%E5%AD%98/index.html">
 <meta property="og:site_name" content="PandaBlog">
-<meta property="og:description" content="1.导入maven坐标 &lt;dependency&gt;     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;spring-boot-starter-websocket&lt;&#x2F;artifactId&gt; &lt;&#x2F;dependency&gt;  2.">
+<meta property="og:description" content="Spring Cache常用注解    注解 说明    @EnableCaching 开启缓存注解功能   @Cacheable 使用该注解的方法在执行前，先将方法的参数作为 key 去缓存中查找，如果缓存中存在该 key，则直接返回对应的结果；否则，执行该方法，并将结果存储到缓存中   @CachePut 使用该注解的方法总是会执行，并将其结果存储到缓存中。这个注解常用于更新缓存。   @Ca">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-07-06T09:46:19.000Z">
-<meta property="article:modified_time" content="2023-07-06T09:56:11.758Z">
+<meta property="article:published_time" content="2023-07-08T11:42:11.000Z">
+<meta property="article:modified_time" content="2023-07-08T11:52:36.818Z">
 <meta property="article:author" content="Panda">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -32,7 +32,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>使用websocket进行消息发送 - PandaBlog</title>
+  <title>使用redis作为springcache缓存 - PandaBlog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -227,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="使用websocket进行消息发送"></span>
+            <span id="subtitle" data-typed-text="使用redis作为springcache缓存"></span>
           
         </div>
 
@@ -238,8 +238,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-06 17:46" pubdate>
-          2023年7月6日 下午
+        <time datetime="2023-07-08 19:42" pubdate>
+          2023年7月8日 晚上
         </time>
       </span>
     
@@ -250,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          2.5k 字
         
       </span>
     
@@ -261,7 +261,7 @@
         
         
         
-          23 分钟
+          21 分钟
         
       </span>
     
@@ -298,111 +298,119 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">使用websocket进行消息发送</h1>
+            <h1 id="seo-header">使用redis作为springcache缓存</h1>
             
             
               <div class="markdown-body">
                 
-                <p><strong>1.导入maven坐标</strong></p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">&lt;dependency&gt;
+                <p><strong>Spring Cache常用注解</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">注解</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">@EnableCaching</td>
+<td align="center">开启缓存注解功能</td>
+</tr>
+<tr>
+<td align="center">@Cacheable</td>
+<td align="center">使用该注解的方法在执行前，先将方法的参数作为 key 去缓存中查找，如果缓存中存在该 key，则直接返回对应的结果；否则，执行该方法，并将结果存储到缓存中</td>
+</tr>
+<tr>
+<td align="center">@CachePut</td>
+<td align="center">使用该注解的方法总是会执行，并将其结果存储到缓存中。这个注解常用于更新缓存。</td>
+</tr>
+<tr>
+<td align="center">@CacheEvict</td>
+<td align="center">使用该注解的方法会从缓存中移除指定的数据</td>
+</tr>
+<tr>
+<td align="center">@Caching</td>
+<td align="center">这个注解用于组合以上三种注解，可以在一个方法中同时使用多个缓存注解。</td>
+</tr>
+</tbody></table>
+<p><strong>1.导入依赖</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">&lt;!-- Spring Cache --&gt;
+&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-websocket&lt;&#x2F;artifactId&gt;
-&lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    &lt;artifactId&gt;spring-boot-starter-cache&lt;&#x2F;artifactId&gt;
+&lt;&#x2F;dependency&gt;
+&lt;!-- Redis --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;
+&lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 
-<p><strong>2.创建一个配置类</strong></p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">@Configuration
-public class WebsocketConfig &#123;
+<p><strong>2.配置yml文件</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">server:
+  port: 8080
+spring:
+  redis:
+    host: 192.168.221.128
+    port: 6380
+    database: 0
+  cache:
+    type: redis
+    redis:
+      time-to-live: 1800000
+      cache-null-values: true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>3.编写使用redis作为缓存的配置类</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">@EnableConfigurationProperties(CacheProperties.class) &#x2F;&#x2F;将配置文件对应的配置读到此类对应的属性上
+@Configuration
+@EnableCaching
+public class RedisConfig &#123;
     @Bean
-    public ServerEndpointExporter serverEndpointExporter()&#123;
-        return new ServerEndpointExporter();
-    &#125;
+    RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties)&#123;
 
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+        RedisCacheConfiguration config  &#x3D; RedisCacheConfiguration.defaultCacheConfig();
+        &#x2F;&#x2F;设置key用string类型保存，value用json格式保存
+        config &#x3D; config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
+        config &#x3D; config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericFastJsonRedisSerializer()));
 
-<p><strong>3.编写websocket的处理类，相当于HTTP请求中的controller</strong></p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">@Component
-@Slf4j
-@ServerEndpoint(&quot;&#x2F;api&#x2F;pushMessage&#x2F;&#123;userId&#125;&quot;)
-public class WebsocketController &#123;
-    &#x2F;**
-     * 记录当前的在线连接数
-     *&#x2F;
-    private static final AtomicInteger onlineCount &#x3D; new AtomicInteger(0);
-    &#x2F;**
-     * 用来存放每个客户端对应的webSocket对象
-     *&#x2F;
-    private static final ConcurrentHashMap&lt;String, WebsocketController&gt; webSocketMap &#x3D; new ConcurrentHashMap&lt;&gt;();
-    &#x2F;**
-     * 与某个客户端的连接会话，需要通过它来给客户端发送数据
-     *&#x2F;
-    private Session session;
-    &#x2F;**
-     * 客户端的标示
-     *&#x2F;
-    private String userId;
-
-    @OnOpen
-    public void onOpen(Session session, @PathParam(&quot;userId&quot;) String userId)&#123;
-        this.session &#x3D; session;
-        this.userId &#x3D; userId;
-        if (webSocketMap.containsKey(userId))&#123;
-            webSocketMap.remove(userId);
-            webSocketMap.put(userId,this);
-        &#125;else &#123;
-            webSocketMap.put(userId,this);
-            onlineCount.incrementAndGet();
+        CacheProperties.Redis redisProperties &#x3D; cacheProperties.getRedis();
+        &#x2F;&#x2F;使配置文件中所有的配置都生效
+        if (redisProperties.getTimeToLive() !&#x3D; null) &#123;
+            config &#x3D; config.entryTtl(redisProperties.getTimeToLive());
         &#125;
-        log.info(&quot;用户连接:&quot;+userId+&quot;，当前在线人数为:&quot;+onlineCount);
-        sendMessage(&quot;连接成功&quot;);
-    &#125;
-    @OnClose
-    public void onClose()&#123;
-        if (webSocketMap.containsKey(userId))&#123;
-            webSocketMap.remove(userId);
-            onlineCount.decrementAndGet();
+        if (redisProperties.getKeyPrefix() !&#x3D; null) &#123;
+            config &#x3D; config.prefixKeysWith(redisProperties.getKeyPrefix());
         &#125;
-        log.info(&quot;用户退出:&quot;+userId+&quot;，当前在线人数为：&quot;+ onlineCount);
-    &#125;
-    @OnMessage
-    public void onMessage(String message, Session session)&#123;
-        UserInfo userInfo &#x3D; JSONUtil.toBean(message, UserInfo.class);
-        Object message1 &#x3D; userInfo.getMessage();
-        log.info(&quot;用户消息:&quot; + userId + &quot;,报文:&quot; + message1);
-        String uid &#x3D; userInfo.getUid();
-        if (StrUtil.isNotBlank(uid) &amp;&amp; webSocketMap.containsKey(uid))&#123;
-            webSocketMap.get(uid).sendMessage(message1.toString());
-        &#125;else &#123;
-            log.error(&quot;请求的userId:&quot; + uid + &quot;不在该服务器上&quot;);
+        if (!redisProperties.isCacheNullValues()) &#123;
+            config &#x3D; config.disableCachingNullValues();
         &#125;
-    &#125;
-    @OnError
-    public void onError(Session session, Throwable error) &#123;
-        log.error(&quot;用户错误:&quot; + this.userId + &quot;,原因:&quot; + error.getMessage());
-        error.printStackTrace();
-    &#125;
-
-    public void sendMessage(String message)&#123;
-        session.getAsyncRemote().sendText(message);
-    &#125;
-    public static void sendInfo(String message, String userId) &#123;
-        log.info(&quot;发送消息到:&quot; + userId + &quot;，报文:&quot; + message);
-        if (StrUtil.isNotBlank(userId) &amp;&amp; webSocketMap.containsKey(userId)) &#123;
-            webSocketMap.get(userId).sendMessage(message);
-        &#125; else &#123;
-            log.error(&quot;用户&quot; + userId + &quot;,不在线！&quot;);
+        if (!redisProperties.isUseKeyPrefix()) &#123;
+            config &#x3D; config.disableKeyPrefix();
         &#125;
+
+        return config;
     &#125;
 
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 
-<p><strong>4.创建一个UserInfo类，用来接收发送过来的消息体</strong></p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">@Data
-public class UserInfo&lt;T&gt; &#123;
-    private String uid;
-    private T message;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p><strong>4.在方法上使用相应的注解</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">@RestController
+@RequestMapping(&quot;&#x2F;user&quot;)
+public class Controller &#123;
 
-<p>在处理类里有用到</p>
+    @GetMapping(&quot;&#x2F;demo&quot;)
+    @Cacheable(cacheNames &#x3D; &quot;user&quot;, key &#x3D; &quot;#userInfo.uid&quot;)
+    public UserInfo test(@RequestBody UserInfo userInfo) &#123;
+        return userInfo;
+    &#125;
+
+    @CachePut(cacheNames &#x3D; &quot;user&quot;, key &#x3D; &quot;#userInfo.uid&quot;)
+    @DeleteMapping(&quot;&#x2F;demo&quot;)
+    public UserInfo delete(@RequestBody UserInfo userInfo) &#123;
+        userInfo.setMessage(&quot;我是更新后的&quot;);
+        return userInfo;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+
 
                 
               </div>
@@ -420,8 +428,8 @@ public class UserInfo&lt;T&gt; &#123;
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>使用websocket进行消息发送</div>
-      <div>http://example.com/2023/07/06/使用websocket进行消息发送/</div>
+      <div>使用redis作为springcache缓存</div>
+      <div>http://example.com/2023/07/08/使用redis作为springcache缓存/</div>
     </div>
     <div class="license-meta">
       
@@ -433,7 +441,7 @@ public class UserInfo&lt;T&gt; &#123;
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年7月6日</div>
+          <div>2023年7月8日</div>
         </div>
       
       
@@ -465,18 +473,12 @@ public class UserInfo&lt;T&gt; &#123;
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/07/08/%E4%BD%BF%E7%94%A8redis%E4%BD%9C%E4%B8%BAspringcache%E7%BC%93%E5%AD%98/" title="使用redis作为springcache缓存">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">使用redis作为springcache缓存</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/07/04/docker%E5%AE%89%E8%A3%85mysql/" title="docker安装mysql">
-                        <span class="hidden-mobile">docker安装mysql</span>
+                      <a href="/2023/07/06/%E4%BD%BF%E7%94%A8websocket%E8%BF%9B%E8%A1%8C%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81/" title="使用websocket进行消息发送">
+                        <span class="hidden-mobile">使用websocket进行消息发送</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
